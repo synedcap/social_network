@@ -2,9 +2,10 @@ var express = require('express');
 var router = express.Router();
 const Post = require("../models/Post");
 const User = require("../models/user");
+const auth = require("../middleware/auth");
 
 /* create post */  
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 
     try {
 
@@ -21,7 +22,7 @@ router.post('/', async (req, res) => {
 
 
 /* update post */  
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
 
     try {
 
@@ -43,7 +44,7 @@ router.put('/:id', async (req, res) => {
 });
 
 /* delete post */  
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
 
     try {
 
@@ -65,7 +66,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 /* like or dislike post */  
-router.put('/:id/like', async (req, res) => {
+router.put('/:id/like', auth, async (req, res) => {
 
     try {
 
@@ -88,7 +89,7 @@ router.put('/:id/like', async (req, res) => {
 });
 
 /*get a post */
-router.get('/:id',async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
 
     try {
       const post = await Post.findById(req.params.id)
@@ -100,7 +101,7 @@ router.get('/:id',async (req, res) => {
 
 });
 /*get timeline post */
-router.get('/timeline/all',async (req, res) => {
+router.get('/timeline/all', auth, async (req, res) => {
 
     try {
       const currentUser = await User.findById(req.body.userId);

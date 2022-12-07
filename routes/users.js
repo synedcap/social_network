@@ -2,14 +2,11 @@ var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcrypt');
 const User = require("../models/user");
+const auth = require("../middleware/auth");
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
 
 /* update user */
-router.put('/:id',async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
 
   if (req.body.userId === req.params.id || req.body.isAdmin) {
 
@@ -38,7 +35,7 @@ router.put('/:id',async (req, res) => {
   }
 });
 /* delete user */
-router.delete('/:id',async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
 
   if (req.body.userId === req.params.id || req.body.isAdmin) {
 
@@ -54,7 +51,7 @@ router.delete('/:id',async (req, res) => {
   }
 });
 /* get a user */
-router.get('/:id',async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
 
     try {
       const user = await User.findById(req.params.id)
@@ -67,7 +64,7 @@ router.get('/:id',async (req, res) => {
 
 });
 /* follow user */
-router.put('/:id/follow',async (req, res) => {
+router.put('/:id/follow', auth, async (req, res) => {
 
   if (req.body.userId !== req.params.id) {
     try {
@@ -94,7 +91,7 @@ router.put('/:id/follow',async (req, res) => {
 });
 
 /* unfollow user */
-router.put('/:id/unfollow',async (req, res) => {
+router.put('/:id/unfollow', auth,async (req, res) => {
 
   if (req.body.userId !== req.params.id) {
     try {
